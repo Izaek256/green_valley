@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useAppContext } from '../../hooks/useAppContext';
-import { mockStore } from '../../data/mockStore';
+// import { mockStore } from '../../data/mockStore';
 
 export const DoctorWorkloadChart: React.FC = () => {
   const { doctors, appointments } = useAppContext();

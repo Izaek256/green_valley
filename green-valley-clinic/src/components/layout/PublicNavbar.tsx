@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 export const PublicNavbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isAuthenticated } = useAuth();
 
   const navLinks = [
     { label: 'Home', path: '/' },
@@ -12,6 +14,11 @@ export const PublicNavbar: React.FC = () => {
     { label: 'Contact', path: '/contact' },
     { label: 'Health Resources', path: '/health-resources' },
   ];
+
+  const handleLogout = () => {
+    // Will be handled by the auth context
+    window.location.href = '/login';
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -32,12 +39,29 @@ export const PublicNavbar: React.FC = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/login"
-              className="bg-[#A8D98A] text-[#1E2A6E] px-4 py-2 rounded hover:bg-[#95c97a]"
-            >
-              Login
-            </Link>
+            {isAuthenticated && user?.role === 'patient' ? (
+              <>
+                <Link
+                  to="/portal"
+                  className="text-gray-700 hover:text-[#A8D98A]"
+                >
+                  My Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-gray-700 hover:text-[#A8D98A]"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-[#A8D98A] text-[#1E2A6E] px-4 py-2 rounded hover:bg-[#95c97a]"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -64,13 +88,34 @@ export const PublicNavbar: React.FC = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 bg-[#A8D98A] text-[#1E2A6E] px-4 rounded text-center"
-            >
-              Login
-            </Link>
+            {isAuthenticated && user?.role === 'patient' ? (
+              <>
+                <Link
+                  to="/portal"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-[#A8D98A]"
+                >
+                  My Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left py-2 text-gray-700 hover:text-[#A8D98A]"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 bg-[#A8D98A] text-[#1E2A6E] px-4 rounded text-center"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}

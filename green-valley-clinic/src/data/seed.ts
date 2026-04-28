@@ -156,6 +156,7 @@ export function generateSeedData() {
 
   const patients: Patient[] = patientData.map((p, index) => ({
     id: generateId(),
+    userId: generateId(), // Link to user account
     name: p.name,
     email: p.email,
     phone: p.phone,
@@ -174,7 +175,7 @@ export function generateSeedData() {
     updatedAt: new Date(now.getTime() - index * 24 * 60 * 60 * 1000).toISOString(),
   }));
 
-  // Users (for all staff and doctors)
+  // Users (for all staff, doctors, and some patients)
   const users: User[] = [
     // Admin user
     {
@@ -214,6 +215,16 @@ export function generateSeedData() {
       name: doctor.name,
       isActive: true,
       createdAt: new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString(),
+    })),
+    // Patient users (first 3 patients can login)
+    ...patients.slice(0, 3).map((patient) => ({
+      id: patient.userId!,
+      email: patient.email,
+      passwordHash: 'patient123',
+      role: 'patient' as const,
+      name: patient.name,
+      isActive: true,
+      createdAt: patient.createdAt,
     })),
   ];
 

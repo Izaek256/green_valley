@@ -12,6 +12,7 @@ import { PatientsPage } from './pages/staff/PatientsPage';
 import { StaffPage } from './pages/staff/StaffPage';
 import { ReportsPage } from './pages/staff/ReportsPage';
 import { LoginPage } from './pages/public/LoginPage';
+import { RegisterPage } from './pages/public/RegisterPage';
 import { HomePage } from './pages/public/HomePage';
 import { ServicesPage } from './pages/public/ServicesPage';
 import { DoctorsPage } from './pages/public/DoctorsPage';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                 <Route path="contact" element={<ContactPage />} />
                 <Route path="health-resources" element={<HealthResourcesPage />} />
                 <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
               </Route>
               
               {/* Staff dashboard (protected) */}

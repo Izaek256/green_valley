@@ -8,12 +8,12 @@ interface DashboardStatsProps {
   doctors: Doctor[];
 }
 
-export const DashboardStats: React.FC<DashboardStatsProps> = ({ patients, appointments, doctors }) => {
+export const DashboardStats: React.FC<DashboardStatsProps> = ({ patients, appointments /*, doctors */ }) => {
   const today = getTodayISO();
   
   const todayAppointments = appointments.filter(a => a.date === today);
   const pendingAppointments = appointments.filter(a => a.status === 'Pending');
-  const activeDoctors = doctors.filter(d => d.isAvailable);
+  // const activeDoctors = doctors.filter(d => d.isAvailable);
   
   // Calculate weekly appointments (next 7 days)
   const weekFromNow = new Date();

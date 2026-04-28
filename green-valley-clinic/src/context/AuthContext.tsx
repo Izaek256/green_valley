@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import type { User, Role } from '../data/types';
+import type { User } from '../data/types';
 import { mockStore } from '../data/mockStore';
 
 interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>;
   logout: () => void;
   register: (data: RegisterPayload) => Promise<{ success: boolean; error?: string }>;
 }
@@ -69,9 +69,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       localStorage.setItem('gvc_session', JSON.stringify(sessionData));
-      setUser({ ...foundUser, passwordHash: '' });
+      const userWithoutPassword = { ...foundUser, passwordHash: '' };
+      setUser(userWithoutPassword);
       
-      return { success: true };
+      return { success: true, user: userWithoutPassword };
     } catch (error) {
       return { success: false, error: 'Login failed. Please try again.' };
     }

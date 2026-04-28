@@ -99,3 +99,4 @@ temp
 *.pem
 *.debug
 *.session
+.config

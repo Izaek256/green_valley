@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAvailableSlots } from '../../lib/slotUtils';
+import { mockStore } from '../../data/mockStore';
 import { formatTime } from '../../lib/utils';
 import type { TimeSlot } from '../../data/types';
 
@@ -14,7 +14,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ doctorId, date, onSlotSe
   const [slots, setSlots] = useState<TimeSlot[]>([]);
 
   useEffect(() => {
-    const availableSlots = getAvailableSlots(doctorId, date);
+    const availableSlots = mockStore.getAvailableSlots(doctorId, date);
     setSlots(availableSlots);
   }, [doctorId, date]);
 

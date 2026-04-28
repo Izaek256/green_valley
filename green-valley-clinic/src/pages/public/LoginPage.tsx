@@ -10,6 +10,7 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState<'staff' | 'patient'>('patient');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +31,12 @@ export const LoginPage: React.FC = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      navigate('/staff');
+      // Redirect based on user role
+      if (result.user?.role === 'patient') {
+        navigate('/portal');
+      } else {
+        navigate('/staff');
+      }
     }
   };
 
@@ -38,7 +44,31 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen bg-[#F0F9D4] flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <h1 className="text-3xl font-bold text-[#1E2A6E] mb-2">Green Valley Clinic</h1>
-        <p className="text-gray-600 mb-6">Staff Login</p>
+        <p className="text-gray-600 mb-6">{userType === 'staff' ? 'Staff Login' : 'Patient Login'}</p>
+
+        {/* User Type Toggle */}
+        <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setUserType('patient')}
+            className={`flex-1 py-2 rounded-md text-sm font-medium transition ${
+              userType === 'patient'
+                ? 'bg-[#A8D98A] text-[#1E2A6E]'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Patient
+          </button>
+          <button
+            onClick={() => setUserType('staff')}
+            className={`flex-1 py-2 rounded-md text-sm font-medium transition ${
+              userType === 'staff'
+                ? 'bg-[#A8D98A] text-[#1E2A6E]'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Staff
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -79,7 +109,13 @@ export const LoginPage: React.FC = () => {
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-600">
-          Patient? <Link to="/portal" className="text-[#A8D98A] hover:underline">Go to Patient Portal</Link>
+          {userType === 'patient' ? (
+            <>
+              Don't have an account? <Link to="/register" className="text-[#A8D98A] hover:underline">Register here</Link>
+            </>
+          ) : (
+            <>Patient? <Link to="/portal" className="text-[#A8D98A] hover:underline">Go to Patient Portal</Link></>
+          )}
         </p>
       </div>
     </div>

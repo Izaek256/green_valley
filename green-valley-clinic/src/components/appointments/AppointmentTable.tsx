@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import type { Appointment, AppointmentStatus, Doctor, Patient, Service } from '../../data/types';
+import type { Appointment, AppointmentStatus } from '../../data/types';
 import { mockStore } from '../../data/mockStore';
 import { StatusBadge } from './StatusBadge';
-import { useToast } from '../../hooks/useToast';
+// import { useToast } from '../../hooks/useToast';
 
 interface AppointmentTableProps {
   appointments: Appointment[];
@@ -13,13 +13,13 @@ interface AppointmentTableProps {
 
 export const AppointmentTable: React.FC<AppointmentTableProps> = ({ 
   appointments, 
-  onEdit, 
+  // onEdit,
   onCancel,
   onStatusChange 
 }) => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<AppointmentStatus | 'All'>('All');
-  const { addToast } = useToast();
+  // const { addToast } = useToast();
 
   const filtered = appointments.filter(apt => {
     const patient = mockStore.getPatientById(apt.patientId);
