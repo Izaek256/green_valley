@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
-import { validateEmail, validateRequired } from '../../lib/validators';
+import { validateEmail, validatePassword, validateRequired } from '../../lib/validators';
 
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
@@ -22,7 +22,7 @@ export const RegisterPage: React.FC = () => {
 
     const nameError = validateRequired(name, 'Full name');
     const emailError = validateRequired(email, 'Email') || validateEmail(email);
-    const passwordError = validateRequired(password, 'Password');
+    const passwordError = validateRequired(password, 'Password') || validatePassword(password);
     const dobError = validateRequired(dateOfBirth, 'Date of birth');
     const phoneError = validateRequired(phone, 'Phone number');
 
@@ -95,6 +95,7 @@ export const RegisterPage: React.FC = () => {
               type="date"
               value={dateOfBirth}
               onChange={(e) => setDateOfBirth(e.target.value)}
+              max={new Date().toISOString().split('T')[0]}
               className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#A8D98A] focus:border-transparent"
             />
           </div>
