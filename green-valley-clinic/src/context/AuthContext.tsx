@@ -5,6 +5,7 @@ import { mockStore } from '../data/mockStore';
 interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
+  isInitializing: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>;
   logout: () => void;
   register: (data: RegisterPayload) => Promise<{ success: boolean; error?: string }>;
@@ -23,6 +24,7 @@ export const AuthContext = createContext<AuthContextValue | undefined>(undefined
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     // Restore session from localStorage
@@ -43,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('gvc_session');
       }
     }
+    setIsInitializing(false);
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
@@ -137,7 +140,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isInitializing, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

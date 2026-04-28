@@ -21,7 +21,7 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     setError('');
 
-    const emailError = validateEmail(email);
+    const emailError = validateRequired(email, 'Email') || validateEmail(email);
     const passwordError = validateRequired(password, 'Password');
     
     if (emailError || passwordError) {

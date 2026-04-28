@@ -17,7 +17,9 @@ export const PatientDashboardPage: React.FC = () => {
     open: false,
     appointment: null,
   });
-  const [refreshKey, setRefreshKey] = React.useState(0);
+
+  // Ensure store is initialized before reading data
+  mockStore.initialize();
 
   if (!user) return null;
 
@@ -52,12 +54,10 @@ export const PatientDashboardPage: React.FC = () => {
       mockStore.updateAppointment(cancelDialog.appointment.id, { status: 'Cancelled' });
       addToast('Appointment cancelled successfully', 'success');
       setCancelDialog({ open: false, appointment: null });
-      setRefreshKey(prev => prev + 1);
     }
   };
 
   const handleProfileUpdate = () => {
-    setRefreshKey(prev => prev + 1);
   };
 
   return (

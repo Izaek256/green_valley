@@ -9,7 +9,11 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children }) => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isInitializing } = useAuth();
+
+  if (isInitializing) {
+    return null; // Wait for session restore before making any redirect decision
+  }
 
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
