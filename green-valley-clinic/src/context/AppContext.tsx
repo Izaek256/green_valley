@@ -64,6 +64,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Load initial data
   useEffect(() => {
+    // Initialize mock store with seed data
+    mockStore.initialize();
     refreshAll();
   }, [refreshAll]);
 

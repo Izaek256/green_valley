@@ -30,6 +30,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (session) {
       try {
         const userData = JSON.parse(session);
+        // Ensure store is initialized before accessing data
+        mockStore.initialize();
         const currentUser = mockStore.getUserByEmail(userData.email);
         
         if (currentUser && currentUser.isActive) {
@@ -45,6 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(async (email: string, password: string) => {
     try {
+      // Ensure store is initialized
+      mockStore.initialize();
       const foundUser = mockStore.getUserByEmail(email);
       
       if (!foundUser) {
@@ -86,6 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = useCallback(async (data: RegisterPayload) => {
     try {
+      // Ensure store is initialized
+      mockStore.initialize();
       // Check if email already exists
       const existingUser = mockStore.getUserByEmail(data.email);
       if (existingUser) {

@@ -12,6 +12,11 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [userType, setUserType] = useState<'staff' | 'patient'>('patient');
 
+  const handleReset = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -117,6 +122,30 @@ export const LoginPage: React.FC = () => {
             <>Patient? <Link to="/portal" className="text-[#A8D98A] hover:underline">Go to Patient Portal</Link></>
           )}
         </p>
+
+        {/* Test Credentials */}
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <p className="text-xs font-semibold text-blue-900 mb-2">Test Credentials:</p>
+          {userType === 'patient' ? (
+            <div className="text-xs text-blue-800 space-y-1">
+              <p><strong>Patient 1:</strong> jane.smith@email.com / patient123</p>
+              <p><strong>Patient 2:</strong> john.doe@email.com / patient123</p>
+              <p><strong>Patient 3:</strong> emily.davis@email.com / patient123</p>
+            </div>
+          ) : (
+            <div className="text-xs text-blue-800 space-y-1">
+              <p><strong>Admin:</strong> admin@greenvalleyclinic.com / admin123</p>
+              <p><strong>Receptionist:</strong> receptionist@greenvalleyclinic.com / recep123</p>
+              <p><strong>Doctor:</strong> drsarahjohnson@greenvalleyclinic.com / doctor123</p>
+            </div>
+          )}
+          <button
+            onClick={handleReset}
+            className="mt-3 w-full bg-blue-600 text-white text-xs py-2 rounded hover:bg-blue-700 transition"
+          >
+            Reset Data & Reload
+          </button>
+        </div>
       </div>
     </div>
   );
